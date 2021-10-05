@@ -1,7 +1,9 @@
 # Bevy game template
 
 # Usage
-`cargo generate --git https://github.com/MaksRawski/bevy-game-template.git --subfolder template --name my-game`
+```
+cargo generate --git https://github.com/MaksRawski/bevy-game-template.git --subfolder template --name my-game
+```
 
 This could be simplified by adding:
 ```
