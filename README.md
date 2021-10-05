@@ -1,4 +1,8 @@
 # Bevy game template
+![template building](https://github.com/MaksRawski/bevy-game-template/actions/workflows/cargo-generate.yml/badge.svg)
+
+Generate a template for a 2d bevy game with wasm suppport
+
 
 # Usage
 ```
