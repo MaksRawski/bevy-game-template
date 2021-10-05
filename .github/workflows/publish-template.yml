@@ -1,0 +1,43 @@
+name: generate template and push it to pages
+
+on: [push]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+
+      - name: install dependencies
+        run: |
+          cargo install wasm-pack
+
+      - name: Check out
+        uses: actions/checkout@v2
+
+      - name: generate
+        run: cargo generate --path template --name test-template -d wasm=true
+
+      - name: build
+        run: |
+          wasm-pack build --target web --release
+          cp pkg/* website
+
+      - name: publish to pages
+        uses: tsunematsu21/actions-publish-gh-pages@v1.0.2
+        with:
+          dir: website
+          branch: gh-pages
+          token: ${{ secrets.ACCESS_TOKEN }}

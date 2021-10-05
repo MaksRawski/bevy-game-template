@@ -1,6 +1,6 @@
-name: Template build
-on:
-  push:
+name: template build
+
+on: [push]
 
 jobs:
   build:
