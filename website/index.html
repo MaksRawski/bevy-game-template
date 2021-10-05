@@ -1,0 +1,13 @@
+<html>
+<head>
+<title>$GAME_NAME</title>
+</head>
+<body>
+<script type="module">
+  import init from "./$GAME_NAME.js";
+  init("./$GAME_NAME_bg.wasm").then(function (wasm) {
+    wasm.run();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+[placeholders.wasm]
+type = "bool"
+prompt = "Build also for wasm?"
+default = true

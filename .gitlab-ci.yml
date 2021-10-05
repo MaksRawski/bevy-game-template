@@ -1,0 +1,36 @@
+image: rustdocker/rust:stable
+
+stages:
+  - install_deps
+  - deploy
+
+cache:
+  key: cargo-cache
+  paths:
+    - cache/cargo/
+    - target/
+
+variables:
+  CARGO_HOME: "cache/cargo"
+
+install_deps:
+  stage: install_deps
+  script:
+    - echo $CARGO_HOME
+    - mkdir -p $CARGO_HOME
+    - rustup target add wasm32-unknown-unknown
+    - cargo install wasm-pack
+    - ls $CARGO_HOME/bin
+
+pages:
+  stage: deploy
+  script:
+    - echo $CARGO_HOME
+    - export PATH=$PATH:$CARGO_HOME/bin
+    - wasm-pack build --target web --release
+    - cp pkg/* website
+    - mv website public
+
+  artifacts:
+    paths:
+      - public
