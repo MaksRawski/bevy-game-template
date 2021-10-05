@@ -1,0 +1,24 @@
+name: Test the template
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      PROJECT_NAME: my-bevy-game
+    steps:
+      - uses: actions/checkout@v2
+      - uses: cargo-generate/cargo-generate-action@v0.10.1
+        with:
+          name: ${{ env.PROJECT_NAME }}
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      # we need to move the generated project to a temp folder, away from the template project
+      # otherwise `cargo` runs would fail 
+      # see https://github.com/rust-lang/cargo/issues/9922
+      - run: |
+          mv $PROJECT_NAME ${{ runner.temp }}/
+          cd ${{ runner.temp }}/$PROJECT_NAME
+          cargo build --release
