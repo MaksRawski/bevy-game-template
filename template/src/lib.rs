@@ -1,6 +1,8 @@
 use bevy::prelude::*;
 use bevy_console::*;
+{% if wasm %}
 use wasm_bindgen::prelude::*;
+{% endif %}
 
 const SPEED: f32 = 500.;
 
@@ -99,6 +101,7 @@ impl Plugin for Setup {
     }
 }
 
+{% if wasm %}
 #[wasm_bindgen]
 fn run() {
     let mut app = App::build();
@@ -111,3 +114,4 @@ fn run() {
         .add_plugin(Setup)
         .run();
 }
+{% endif %}
