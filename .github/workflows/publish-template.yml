@@ -16,16 +16,15 @@ jobs:
             target/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
+      - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
 
       - name: install dependencies
         run: |
+          cargo install cargo-generate
           cargo install wasm-pack
-
-      - name: Check out
-        uses: actions/checkout@v2
 
       - name: generate
         run: cargo generate --path template --name test-template -d wasm=true

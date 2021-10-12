@@ -1,6 +1,13 @@
 name: template build
 
-on: [push]
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 18 * * 5'
+  push:
+    branches: [ '*' ]
+    paths-ignore:
+      - "**.md"
 
 jobs:
   build:
@@ -12,13 +19,25 @@ jobs:
       - uses: cargo-generate/cargo-generate-action@v0.10.1
         with:
           name: ${{ env.PROJECT_NAME }}
+          subfolder: template
+          other: "-d wasm=true"
+
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-      # we need to move the generated project to a temp folder, away from the template project
-      # otherwise `cargo` runs would fail 
-      # see https://github.com/rust-lang/cargo/issues/9922
-      - run: |
-          mv $PROJECT_NAME ${{ runner.temp }}/
-          cd ${{ runner.temp }}/$PROJECT_NAME
+
+      - name: move project
+        run: |
+          mv my-bevy-game ${{ runner.temp }}/
+
+      - name: build project
+        run: |
+          sudo apt-get install g++ pkg-config libx11-dev libasound2-dev libudev-dev
+          cd ${{ runner.temp }}/my-bevy-game
           cargo build --release
+
+      - uses: Swatinem/rust-cache@v1
+        with:
+          working-directory: ${{ runner.temp }}/my-bevy-game
+          target-dir: ${{ runner.temp }}/my-bevy-game/target
+          cache-on-failure: true

@@ -103,7 +103,7 @@ impl Plugin for Setup {
 
 {% if wasm %}
 #[wasm_bindgen]
-fn run() {
+pub fn run() {
     let mut app = App::build();
 
     app.add_plugins(DefaultPlugins);

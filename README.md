@@ -1,7 +1,7 @@
 # Bevy game template
-![template building](https://github.com/MaksRawski/bevy-game-template/actions/workflows/cargo-generate.yml/badge.svg)
+[![template building](https://github.com/MaksRawski/bevy-game-template/actions/workflows/cargo-generate.yml/badge.svg)](https://github.com/MaksRawski/bevy-game-template/actions/workflows/cargo-generate.yml)
 
-Generate a template for a 2d bevy game with wasm suppport
+Generate a template for a 2d bevy game with wasm suppport. [Template preview](https://github.io/maksrawski/bevy-game-template).
 
 
 # Usage
